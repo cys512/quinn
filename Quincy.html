@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f5ef">
+  <title>For Quincy ♡</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#f8f5ef',
+            gold: '#b69a67',
+            ink: '#37342e',
+            muted: '#8e877c'
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['DM Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      background: #f8f5ef;
+      color: #37342e;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .serif { font-family: 'Cormorant Garamond', serif; }
+
+    .gold-line {
+      width: 48px;
+      height: 1px;
+      background: #b69a67;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero {
+      background:
+        radial-gradient(ellipse at 50% 45%, #fffdf8 0%, #f8f5ef 65%);
+    }
+
+    .letter-paper {
+      background: #fffdf8;
+      box-shadow: 0 20px 70px rgba(70, 58, 39, .08);
+      border: 1px solid rgba(182,154,103,.2);
+    }
+
+    .envelope {
+      position: relative;
+      width: 220px;
+      height: 145px;
+      background: #e9ddc8;
+      margin: auto;
+      cursor: pointer;
+      transition: transform .4s ease;
+    }
+
+    .envelope:hover { transform: translateY(-5px); }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-left: 110px solid transparent;
+      border-right: 110px solid transparent;
+      border-top: 82px solid #d6c5a8;
+      z-index: 2;
+      transform-origin: top;
+      transition: transform .7s ease;
+    }
+
+    .envelope::after {
+      content: '♡';
+      position: absolute;
+      z-index: 3;
+      top: 62px;
+      left: 93px;
+      color: #fffdf8;
+      font-size: 35px;
+    }
+
+    .envelope.open::before {
+      transform: rotateX(180deg);
+    }
+
+    .envelope.open {
+      transform: translateY(5px);
+    }
+
+    .letter {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: all .8s ease;
+      pointer-events: none;
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .letter.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      max-height: 1000px;
+    }
+
+    .music-disc {
+      width: 115px;
+      height: 115px;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle,
+        #d9c8a7 0px,
+        #d9c8a7 2px,
+        #c4ad83 3px,
+        #c4ad83 4px
+      );
+      display: grid;
+      place-items: center;
+      margin: auto;
+      box-shadow: 0 8px 30px rgba(90,70,35,.12);
+    }
+
+    .music-disc.playing {
+      animation: rotate 5s linear infinite;
+    }
+
+    .disc-center {
+      width: 35px;
+      height: 35px;
+      background: #f8f5ef;
+      border: 5px solid #b69a67;
+      border-radius: 50%;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      color: #c7a9a0;
+      pointer-events: none;
+      z-index: 50;
+      animation: floatUp 7s linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      15% { opacity: .5; }
+      100% { transform: translateY(-110vh) rotate(40deg); opacity: 0; }
+    }
+
+    .progress-track {
+      height: 3px;
+      background: #e9e1d5;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #b69a67;
+      width: 0%;
+    }
+
+    .affirmation {
+      transition: all .4s ease;
+    }
+
+    .affirmation:hover {
+      transform: translateY(-5px);
+      border-color: #b69a67;
+    }
+
+    .reveal-message {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all .6s ease;
+    }
+
+    .reveal-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    ::selection {
+      background: #e7d7b8;
+      color: #37342e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-40 bg-cream/85 backdrop-blur-md border-b border-[#e9e1d5]">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="serif text-2xl tracking-wider">for quincy<span class="text-gold">.</span></a>
+      <span class="text-[10px] tracking-[.3em] uppercase text-muted">A little reminder ♡</span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative">
+    <div class="fade-in visible">
+      <p class="uppercase text-[10px] tracking-[.4em] text-gold mb-8">
+        A little something for you
+      </p>
+
+      <p class="serif italic text-2xl md:text-3xl text-muted mb-2">
+        To my dearest Quincy,
+      </p>
+
+      <h1 class="serif text-7xl md:text-9xl font-medium tracking-tight mb-5">
+        Quincy<span class="text-gold">.</span>
+      </h1>
+
+      <div class="gold-line mx-auto my-7"></div>
+
+      <p class="max-w-sm mx-auto text-sm md:text-base leading-8 text-muted font-light">
+        In between the pages, the pressure, the long nights
+        and the endless revisions...
+        I hope you find a little moment for yourself here.
+      </p>
+
+      <a href="#letter"
+         class="inline-flex items-center gap-3 mt-12 border border-gold/60 px-8 py-4 text-xs tracking-[.2em] uppercase hover:bg-[#e9ddc8] transition duration-300">
+        There's something for you <span>♡</span>
+      </a>
+    </div>
+
+    <div class="absolute bottom-8 text-muted text-[10px] tracking-[.3em] uppercase animate-pulse">
+      scroll gently ↓
+    </div>
+  </section>
+
+  <!-- Letter -->
+  <section id="letter" class="py-28 px-6">
+    <div class="max-w-2xl mx-auto text-center fade-in">
+      <p class="text-gold uppercase tracking-[.3em] text-[10px] mb-4">01 — A letter</p>
+      <h2 class="serif text-5xl md:text-6xl mb-5">Something from my heart.</h2>
+      <p class="text-muted text-sm mb-12">A little letter, written just for you.</p>
+
+      <div id="envelope" class="envelope" onclick="openLetter()"></div>
+
+      <p id="envelope-hint" class="text-xs text-muted mt-7 tracking-widest uppercase">
+        Tap the envelope to open ♡
+      </p>
+
+      <div id="letter-content" class="letter mt-12">
+        <div class="letter-paper p-8 md:p-14 text-left">
+          <p class="serif italic text-2xl text-gold mb-8">My dear Quincy,</p>
+
+          <div class="text-[14px] md:text-base leading-9 text-[#696257] space-y-5">
+            <p>
+              I know you've been putting in the work. The reading,
+              the revisions, the early mornings and those moments
+              when your mind probably feels like it has read enough
+              for one lifetime.
+            </p>
+
+            <p>
+              I just wanted to pause your world for a little moment
+              and remind you of something: <strong class="text-ink font-medium">
+              I believe in you.</strong>
+            </p>
+
+            <p>
+              Not just in your ability to pass these exams, but in the
+              person you are becoming. I see the effort, the determination
+              and the strength it takes to keep showing up, even on the
+              days when everything feels difficult.
+            </p>
+
+            <p>
+              So breathe, beautiful. Take things one question, one page,
+              one day at a time. You don't have to know everything.
+              You just have to give yourself the chance to do your best.
+            </p>
+
+            <p>
+              And please remember that your worth has never been measured
+              by a grade, a result or a piece of paper. You are already
+              someone worth celebrating.
+            </p>
+
+            <p>
+              I'm proud of you. I'm rooting for you. And somewhere out
+              here, someone is smiling just thinking about you.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="serif italic text-2xl">With all my heart,</p>
+            <p class="text-gold tracking-widest uppercase text-xs mt-3">Someone who believes in you , COLE THE ARCHITECT♡</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Music -->
+  <section id="music" class="py-28 px-6 bg-[#f0ece4]">
+    <div class="max-w-xl mx-auto text-center fade-in">
+      <p class="text-gold uppercase tracking-[.3em] text-[10px] mb-5">02 — A song for you</p>
+      <h2 class="serif text-5xl md:text-6xl mb-4">Press play, beautiful.</h2>
+      <p class="text-muted text-sm leading-7 mb-12">
+        Some feelings are better expressed through music.
+        So here's a little soundtrack for your moment.
+      </p>
+
+      <div class="music-disc mb-8" id="disc">
+        <div class="disc-center"></div>
+      </div>
+
+      <h3 class="serif text-3xl">Chai Ya Saa Kumi</h3>
+      <p class="text-xs tracking-[.2em] text-muted mt-2 uppercase">Ywaya Tajiri</p>
+
+      <!-- Opens the song in a popup without leaving this page -->
+      <div class="max-w-sm mx-auto mt-10">
+        <button
+          id="open-music"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="music-modal"
+          class="inline-flex items-center gap-3 rounded-full border border-gold px-8 py-4 text-[10px] uppercase tracking-[.25em] text-[#8b7047] hover:bg-[#e9ddc8] transition duration-300">
+          <span aria-hidden="true" class="text-base">▶</span>
+          Play our song
+        </button>
+        <p class="text-[10px] tracking-widest text-muted uppercase mt-5">
+          A little music, just for this moment ♡
+        </p>
+      </div>
+
+      <p class="text-[10px] text-muted mt-10">
+        A little music, a little peace, and a lot of love.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Music popup: stays on this page and stops playback when closed -->
+  <div
+    id="music-modal"
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-[#211d19]/75 px-4 py-8 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="music-modal-title"
+    aria-hidden="true">
+    <div class="relative w-full max-w-2xl rounded-2xl border border-[#c9ad7b]/50 bg-[#f8f5ef] p-4 shadow-2xl sm:p-7">
+      <button
+        id="close-music"
+        type="button"
+        aria-label="Close music player"
+        class="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-full bg-[#eee7da] text-xl text-[#6f5a3b] transition hover:bg-[#e2d4bd]">
+        ×
+      </button>
+      <div class="px-3 pb-5 pt-7 text-center">
+        <p class="mb-2 text-[10px] uppercase tracking-[.3em] text-[#a48757]">A song for you</p>
+        <h3 id="music-modal-title" class="serif text-3xl text-[#40372c] sm:text-4xl">Chai Ya Saa Kumi</h3>
+        <p class="mt-2 text-xs uppercase tracking-[.2em] text-muted">Ywaya Tajiri</p>
+      </div>
+      <div class="overflow-hidden rounded-xl bg-black shadow-lg">
+        <iframe
+          id="spotify-song"
+          title="Chai Ya Saa Kumi on Spotify"
+          src=""
+          width="100%"
+          height="152"
+          style="border: 0; border-radius: 12px; display: block;"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
+      </div>
+      <p class="pt-5 text-center text-[10px] tracking-widest text-muted">Stay a little. Breathe a little. ♡</p>
+      <p class="mt-3 text-center text-xs text-muted">If Spotify asks you to sign in, open the song in
+        <a class="underline text-[#8b7047]" href="https://open.spotify.com/track/0I8KGnBRFK4bNGJzS4dcPG" target="_blank" rel="noopener noreferrer">Spotify</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Affirmations -->
+  <section id="reminders" class="py-28 px-6">
+    <div class="max-w-4xl mx-auto text-center fade-in">
+      <p class="text-gold uppercase tracking-[.3em] text-[10px] mb-5">03 — Little reminders</p>
+      <h2 class="serif text-5xl md:text-6xl mb-5">For the days you need them.</h2>
+      <p class="text-sm text-muted mb-14">A few things I hope you never forget.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
+
+        <div class="affirmation border border-[#e8e0d4] p-8">
+          <span class="text-gold text-xl">01.</span>
+          <h3 class="serif text-3xl mt-5 mb-3">You are capable.</h3>
+          <p class="text-sm text-muted leading-7">You've made it this far. Trust the work you've put in. You know more than you think.</p>
+        </div>
+
+        <div class="affirmation border border-[#e8e0d4] p-8">
+          <span class="text-gold text-xl">02.</span>
+          <h3 class="serif text-3xl mt-5 mb-3">Rest is productive.</h3>
+          <p class="text-sm text-muted leading-7">You are human, not a machine. Take a breath. Drink some water. Let your mind rest.</p>
+        </div>
+
+        <div class="affirmation border border-[#e8e0d4] p-8">
+          <span class="text-gold text-xl">03.</span>
+          <h3 class="serif text-3xl mt-5 mb-3">One step at a time.</h3>
+          <p class="text-sm text-muted leading-7">You don't need to figure out the entire journey today. Just focus on the next question.</p>
+        </div>
+
+        <div class="affirmation border border-[#e8e0d4] p-8">
+          <span class="text-gold text-xl">04.</span>
+          <h3 class="serif text-3xl mt-5 mb-3">You are loved.</h3>
+          <p class="text-sm text-muted leading-7">Even on your hardest days, you are appreciated, cherished and worth so much more than you know.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive message -->
+  <section class="py-24 px-6 bg-[#f0ece4]">
+    <div class="max-w-xl mx-auto text-center fade-in">
+      <p class="text-gold uppercase tracking-[.3em] text-[10px] mb-5">04 — Just for you</p>
+      <h2 class="serif text-5xl mb-6">A little reminder, anytime.</h2>
+      <p class="text-sm text-muted leading-7 mb-9">
+        Whenever the pressure gets loud, tap below.
+        Let me remind you of something.
+      </p>
+
+      <button onclick="showReminder()"
+        class="border border-gold px-9 py-4 text-xs uppercase tracking-[.2em] hover:bg-gold hover:text-white transition">
+        Remind me ♡
+      </button>
+
+      <div id="random-message" class="reveal-message mt-10">
+        <p class="serif italic text-3xl md:text-4xl text-gold leading-relaxed" id="reminder-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final -->
+  <section class="min-h-[75vh] flex items-center justify-center px-6 py-24 text-center">
+    <div class="max-w-xl mx-auto fade-in">
+      <p class="text-gold uppercase tracking-[.3em] text-[10px] mb-7">05 — Before you go</p>
+
+      <div class="gold-line mx-auto mb-10"></div>
+
+      <h2 class="serif text-5xl md:text-7xl leading-tight mb-8">
+        Go show the world what you're made of.
+      </h2>
+
+      <p class="text-sm text-muted leading-8 max-w-md mx-auto">
+        I hope you walk into every exam with courage,
+        leave every room knowing you gave it your best,
+        and never forget to be kind to yourself along the way.
+      </p>
+
+      <p class="serif italic text-3xl mt-12 text-gold">
+        I'm always in your corner, Quincy.
+      </p>
+
+      <div class="text-3xl mt-8">♡</div>
+
+      <p class="text-[10px] uppercase tracking-[.3em] text-muted mt-12">
+        Made with love, just for you.
+      </p>
+    </div>
+  </section>
+
+  <footer class="border-t border-[#e9e1d5] py-7 text-center">
+    <p class="serif italic text-xl text-muted">For Quincy, always. ♡</p>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Envelope interaction
+    let letterOpened = false;
+
+    function openLetter() {
+      if (letterOpened) return;
+
+      letterOpened = true;
+
+      document.getElementById('envelope').classList.add('open');
+
+      document.getElementById('envelope-hint').textContent =
+        'A little love, just for you ♡';
+
+      setTimeout(() => {
+        document.getElementById('letter-content').classList.add('show');
+      }, 450);
+    }
+
+    // Music popup: load the Spotify player only when opened.
+    const disc = document.getElementById('disc');
+    const musicModal = document.getElementById('music-modal');
+    const spotifySong = document.getElementById('spotify-song');
+    const openMusicButton = document.getElementById('open-music');
+    const closeMusicButton = document.getElementById('close-music');
+    const songEmbedUrl = 'https://open.spotify.com/embed/track/0I8KGnBRFK4bNGJzS4dcPG?utm_source=generator';
+
+    function openMusic() {
+      musicModal.classList.remove('hidden');
+      musicModal.classList.add('flex');
+      musicModal.setAttribute('aria-hidden', 'false');
+      spotifySong.src = songEmbedUrl;
+      document.body.classList.add('overflow-hidden');
+      closeMusicButton.focus();
+    }
+
+    function closeMusic() {
+      musicModal.classList.add('hidden');
+      musicModal.classList.remove('flex');
+      musicModal.setAttribute('aria-hidden', 'true');
+      spotifySong.src = ''; // Removing the iframe source stops the music.
+      document.body.classList.remove('overflow-hidden');
+      openMusicButton.focus();
+    }
+
+    openMusicButton.addEventListener('click', openMusic);
+    closeMusicButton.addEventListener('click', closeMusic);
+
+    musicModal.addEventListener('click', (event) => {
+      if (event.target === musicModal) closeMusic();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !musicModal.classList.contains('hidden')) {
+        closeMusic();
+      }
+    });
+
+    // Random reminders
+    const reminders = [
+      "You are doing better than you think, beautiful.",
+      "Take a breath. You've got this.",
+      "Your effort matters, even when nobody sees it.",
+      "I wish you could see yourself through my eyes.",
+      "One difficult day doesn't mean a difficult future.",
+      "Keep going, my favourite human. Your dreams are waiting.",
+      "You don't have to be perfect to make me proud.",
+      "Rest your mind. You deserve gentleness too.",
+      "I believe in the girl behind those books.",
+      "No matter the results, you are still extraordinary."
+    ];
+
+    let lastReminder = -1;
+
+    function showReminder() {
+      let next;
+
+      do {
+        next = Math.floor(Math.random() * reminders.length);
+      } while (next === lastReminder);
+
+      lastReminder = next;
+
+      const box = document.getElementById('random-message');
+      const text = document.getElementById('reminder-text');
+
+      box.classList.remove('show');
+
+      setTimeout(() => {
+        text.textContent = reminders[next];
+        box.classList.add('show');
+      }, 200);
+    }
+
+    // Subtle floating hearts
+    function createHeart() {
+      const heart = document.createElement('span');
+
+      heart.className = 'floating-heart';
+      heart.textContent = Math.random() > .5 ? '♡' : '✧';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (12 + Math.random() * 15) + 'px';
+      heart.style.animationDuration = (6 + Math.random() * 5) + 's';
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 11000);
+    }
+
+    setInterval(createHeart, 2500);
+  </script>
+
+</body>
+</html>
